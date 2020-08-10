@@ -1,5 +1,6 @@
 package order;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -16,6 +17,16 @@ public class Orders {
             instance = new Orders();
         }
         return instance;
+    }
+
+    public void ordering() {
+        Order order = new Order();
+        OrderdProduct orderdProduct = new OrderdProduct();
+
+
+        order.setOrderdProducts(orderdProduct);
+        order.setTime(new Date());
+
     }
 
     public String addOrder(Order order) {

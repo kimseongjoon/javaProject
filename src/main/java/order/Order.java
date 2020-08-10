@@ -18,6 +18,18 @@ public class Order {
         this.id = id;
     }
 
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public void setOrderdProducts(HashSet<OrderdProduct> orderdProducts) {
+        this.orderdProducts = orderdProducts;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public String toString() {
         Iterator<OrderdProduct> ir = orderdProducts.iterator();
