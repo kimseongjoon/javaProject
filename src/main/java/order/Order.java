@@ -7,7 +7,7 @@ import java.util.Iterator;
 public class Order {
     private int id;
     private Date time;
-    private HashSet<OrderdProduct> orderdProducts;
+    private HashSet<OrderedProducts> orderedProducts;
     private int totalPrice;
 
     public void ordering() {
@@ -22,8 +22,8 @@ public class Order {
         this.time = time;
     }
 
-    public void setOrderdProducts(HashSet<OrderdProduct> orderdProducts) {
-        this.orderdProducts = orderdProducts;
+    public void setOrderedProducts(HashSet<OrderedProducts> orderedProducts) {
+        this.orderedProducts = orderedProducts;
     }
 
     public void setTotalPrice(int totalPrice) {
@@ -32,14 +32,14 @@ public class Order {
 
     @Override
     public String toString() {
-        Iterator<OrderdProduct> ir = orderdProducts.iterator();
+        Iterator<OrderedProducts> ir = orderedProducts.iterator();
 
         StringBuilder orderedListStr = new StringBuilder();
         int totalPrice = 0;
 
         while (ir.hasNext()) {
-            OrderdProduct product = ir.next();
-            totalPrice += product.getPrice();
+            OrderedProducts product = ir.next();
+            //totalPrice += product.getPrice();
             orderedListStr.append(product.toString()).append("\n");
         }
         return "Order{" +

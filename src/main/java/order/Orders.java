@@ -1,6 +1,7 @@
 package order;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -21,12 +22,10 @@ public class Orders {
 
     public void ordering() {
         Order order = new Order();
-        OrderdProduct orderdProduct = new OrderdProduct();
+        HashSet<OrderedProducts> orderdProduct = new HashSet<OrderedProducts>();
 
-
-        order.setOrderdProducts(orderdProduct);
+        order.setOrderedProducts(orderdProduct);
         order.setTime(new Date());
-
     }
 
     public String addOrder(Order order) {

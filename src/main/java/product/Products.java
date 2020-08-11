@@ -20,7 +20,11 @@ public class Products {
     }
 
     public Product getProduct(int productID) {
-        return productList.get(productID);
+        if (productList.containsKey(productID)) {
+            return productList.get(productID);
+        } else {
+            return null;
+        }
     }
 
     public TreeMap<Integer, Product> getProductList() {
@@ -30,15 +34,21 @@ public class Products {
     public void printAllProducts() {
         Iterator<Integer> ir = productList.keySet().iterator();
 
-        System.out.println("===========================상품 목록=============================");
+        System.out.println("========================================상품 목록========================================");
 
         while (ir.hasNext()) {
             int key = ir.next();
             Product product = productList.get(key);
-            System.out.println(product);
+            System.out.print(product.getId() + "번 : " + product);
+            if (product.getQuantity() <= 0) {
+                System.out.println(" (품절)");
+            } else {
+                System.out.println();
+            }
+
         }
 
-        System.out.println("==================================================================");
+        System.out.println("========================================================================================");
     }
 
     public String addProduct(Product product) {
