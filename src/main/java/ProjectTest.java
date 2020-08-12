@@ -41,11 +41,16 @@ public class ProjectTest {
 
             String productID = scanner.nextLine();
 
-            if (productID.equalsIgnoreCase("Q")) {
-                System.out.println("프로그램을 종료합니다.");
-                return;
-            } else if (!products.getProductList().containsKey(Integer.parseInt(productID))){
-                System.out.println("입력한 번호에 해당하는 상품은 존재하지 않습니다.");
+            try {
+                if (productID.equalsIgnoreCase("Q")) {
+                    System.out.println("프로그램을 종료합니다.");
+                    return;
+                } else if (!products.getProductList().containsKey(Integer.parseInt(productID))){
+                    System.out.println("입력한 번호에 해당하는 상품은 존재하지 않습니다.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("상품 번호가 잘 못 입력되었습니다. 다시 입력하세요");
+                continue;
             }
 
             System.out.println("구매하고자 하는 상품 수량을 입력하세요.");
@@ -58,7 +63,12 @@ public class ProjectTest {
                 return;
             }
 
-            orderedProducts.addOrderedProduct(Integer.parseInt(productID), Integer.parseInt(purchaseQuatity));
+            try {
+                orderedProducts.addOrderedProduct(Integer.parseInt(productID), Integer.parseInt(purchaseQuatity));
+            } catch (NumberFormatException e) {
+                System.out.println("상품 수량이 잘 못 입력되었습니다. 다시 입력하세요");
+                continue;
+            }
 
             System.out.println("쇼핑을 계속하고자 하는 경우 Y를 입력하고, 선택한 상품을 구매하고자 하는 경우 N을 입력하세요.");
             System.out.print("쇼핑을 계속하시겠습니까? : ");
