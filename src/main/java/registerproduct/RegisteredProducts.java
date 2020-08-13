@@ -1,25 +1,25 @@
-package product;
+package registerproduct;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public class Products {
-    private TreeMap<Integer, Product> productList;
-    private static Products instance = new Products();
+public class RegisteredProducts {
+    private TreeMap<Integer, RegisteredProduct> productList;
+    private static RegisteredProducts instance = new RegisteredProducts();
 
-    private Products() {
-        productList = new TreeMap<Integer, Product>();
+    private RegisteredProducts() {
+        productList = new TreeMap<Integer, RegisteredProduct>();
     }
 
-    public static Products getInstance() {
+    public static RegisteredProducts getInstance() {
         if (instance == null) {
-            instance = new Products();
+            instance = new RegisteredProducts();
         }
         return instance;
     }
 
-    public Product getProduct(int productID) {
+    public RegisteredProduct getProduct(int productID) {
         if (productList.containsKey(productID)) {
             return productList.get(productID);
         } else {
@@ -27,7 +27,7 @@ public class Products {
         }
     }
 
-    public TreeMap<Integer, Product> getProductList() {
+    public TreeMap<Integer, RegisteredProduct> getProductList() {
         return productList;
     }
 
@@ -38,9 +38,9 @@ public class Products {
 
         while (ir.hasNext()) {
             int key = ir.next();
-            Product product = productList.get(key);
-            System.out.print(product.getId() + "번 : " + product);
-            if (product.getQuantity() <= 0) {
+            RegisteredProduct registeredProduct = productList.get(key);
+            System.out.print(registeredProduct.getId() + "번 : " + registeredProduct);
+            if (registeredProduct.getQuantity() <= 0) {
                 System.out.println(" (품절)");
             } else {
                 System.out.println();
@@ -51,7 +51,7 @@ public class Products {
         System.out.println("========================================================================================");
     }
 
-    public String addProduct(Product product) {
+    public String addProduct(RegisteredProduct registeredProduct) {
         int addIndex = 0;
         Iterator<Integer> ir = productList.keySet().iterator();
 
@@ -73,8 +73,8 @@ public class Products {
             return "상품등록을 실패하였습니다.";
         }
 
-        product.setId(addIndex);
-        productList.put(addIndex, product);
+        registeredProduct.setId(addIndex);
+        productList.put(addIndex, registeredProduct);
 
         return "상품을 등록하였습니다.";
     }
@@ -87,19 +87,19 @@ public class Products {
         }
     }
 
-    public Product searchProduct(String tag, Object value) throws NoSuchFieldException { // 리터럴 값만 비교 가능
+    public RegisteredProduct searchProduct(String tag, Object value) throws NoSuchFieldException { // 리터럴 값만 비교 가능
         Iterator<Integer> ir = productList.keySet().iterator();
 
         while (ir.hasNext()) {
             int key = ir.next();
-            Product product = productList.get(key);
+            RegisteredProduct registeredProduct = productList.get(key);
 
-            Field field = product.getClass().getDeclaredField(tag);
+            Field field = registeredProduct.getClass().getDeclaredField(tag);
             field.setAccessible(true);
             try {
-                Object result = field.get(product);
+                Object result = field.get(registeredProduct);
                 if ((result).equals(value)) {
-                    return product;
+                    return registeredProduct;
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

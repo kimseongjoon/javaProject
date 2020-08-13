@@ -1,31 +1,30 @@
 import order.OrderedProducts;
-import product.Product;
-import product.Products;
+import registerproduct.RegisteredProduct;
+import registerproduct.RegisteredProducts;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class ProjectTest {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Products products = Products.getInstance();
-        Product product;
+        RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
+        RegisteredProduct registeredProduct;
         OrderedProducts orderedProducts = OrderedProducts.getInstance();
 
-        product = new Product("반팔 티셔츠", 20000, 100, "A사");
-        products.addProduct(product);
-        product = new Product("컴퓨터", 1000000, 30, "B사");
-        products.addProduct(product);
-        product = new Product("책", 15000, 150, "C사");
-        products.addProduct(product);
-        product = new Product("반팔 티셔츠", 20000, 100, "E사");
-        products.addProduct(product);
-        product = new Product("장난감", 5000, 50, "F사");
-        products.addProduct(product);
-        product = new Product("화장품", 40000, 100, "G사");
-        products.addProduct(product);
-        product = new Product("신발", 250000, 5, "Z사");
-        products.addProduct(product);
+        registeredProduct = new RegisteredProduct("반팔 티셔츠", "A사", 20000, 100);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("컴퓨터", "B사", 1000000, 30);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("책", "C사", 15000, 150);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("반팔 티셔츠", "E사", 20000, 100);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("장난감", "F사", 5000, 50);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("화장품", "G사", 40000, 100);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("신발", "Z사", 250000, 5);
+        registeredProducts.addProduct(registeredProduct);
 
         System.out.println("쇼핑몰 프로그램입니다.");
         System.out.println("쇼핑을 종료하고자 하는 경우 Q를 입력하세요.");
@@ -34,7 +33,7 @@ public class ProjectTest {
 
         while (true) {
             System.out.println();
-            products.printAllProducts();
+            registeredProducts.printAllProducts();
 
             System.out.println("원하는 상품 번호를 입력하세요.");
             System.out.print("상품 번호 : ");
@@ -45,7 +44,7 @@ public class ProjectTest {
                 if (productID.equalsIgnoreCase("Q")) {
                     System.out.println("프로그램을 종료합니다.");
                     return;
-                } else if (!products.getProductList().containsKey(Integer.parseInt(productID))){
+                } else if (!registeredProducts.getProductList().containsKey(Integer.parseInt(productID))){
                     System.out.println("입력한 번호에 해당하는 상품은 존재하지 않습니다.");
                 }
             } catch (NumberFormatException e) {

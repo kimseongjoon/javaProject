@@ -1,4 +1,4 @@
-package product;
+package registerproduct;
 
 import org.junit.jupiter.api.Test;
 
@@ -7,22 +7,21 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductsTest {
+class RegisteredProductsTest {
 
-    Products products = Products.getInstance();
+    RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
     @Test
     void addProduct() {
-        Product product = new Product("제품", 15000, 100, 1, 1);
-        product = new Product("제품", 15000, 100, 1, 1);
+        RegisteredProduct registeredProduct = new RegisteredProduct("제품", "a사", 15000, 100);
 
-        System.out.println( products.addProduct(product));
-        product = new Product("제품2", 25000, 200, 1, 1);
+        System.out.println( registeredProducts.addProduct(registeredProduct));
+        registeredProduct = new RegisteredProduct("제품2", "b사", 25000, 200);
 
-        products.addProduct(product);
-        product = new Product("제품3", 35000, 300, 1, 1);
+        registeredProducts.addProduct(registeredProduct);
+        registeredProduct = new RegisteredProduct("제품3", "c사", 35000, 300);
 
-        products.addProduct(product);
-        assertEquals("상품을 등록하였습니다.", products.addProduct(product));
+        registeredProducts.addProduct(registeredProduct);
+        assertEquals("상품을 등록하였습니다.", registeredProducts.addProduct(registeredProduct));
     }
 
     @Test
@@ -31,7 +30,7 @@ class ProductsTest {
 
     @Test
     void getProductList() {
-        TreeMap<Integer, Product> a = products.getProductList();
+        TreeMap<Integer, RegisteredProduct> a = registeredProducts.getProductList();
 
         Iterator<Integer> ir = a.keySet().iterator();
 
@@ -39,8 +38,8 @@ class ProductsTest {
 
         while (ir.hasNext()) {
             int key = ir.next();
-            Product product = a.get(key);
-            System.out.println(product);
+            RegisteredProduct registeredProduct = a.get(key);
+            System.out.println(registeredProduct);
         }
 
         System.out.println("==================================================================");
@@ -49,18 +48,18 @@ class ProductsTest {
 
     @Test
     void printAllProducts() {
-        products.printAllProducts();
+        registeredProducts.printAllProducts();
     }
 
     @Test
     void delProduct() {
-        System.out.println(products.delProduct(4));
+        System.out.println(registeredProducts.delProduct(4));
     }
 
     @Test
     void searchProduct() {
         try {
-            Product a = products.searchProduct("name", "제품3");
+            RegisteredProduct a = registeredProducts.searchProduct("name", "제품3");
 
             if (a != null) {
                 System.out.println(a.toString());
@@ -70,7 +69,7 @@ class ProductsTest {
 
 
 
-            a = products.searchProduct("price", 40000);
+            a = registeredProducts.searchProduct("price", 40000);
 
             if (a != null) {
                 System.out.println(a.toString());
@@ -79,7 +78,7 @@ class ProductsTest {
             }
 
 
-            a = products.searchProduct("price", 35000);
+            a = registeredProducts.searchProduct("price", 35000);
 
             if (a != null) {
                 System.out.println(a.toString());

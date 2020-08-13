@@ -1,21 +1,21 @@
 package order;
 
-import product.Product;
-import product.Products;
+import registerproduct.RegisteredProduct;
+import registerproduct.RegisteredProducts;
 
 public class OrderedProductsTest {
     public static void main(String[] args) {
-        Products products = Products.getInstance();
-        Product product;
+        RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
+        RegisteredProduct registeredProduct;
 
-        product = new Product("제품", 15000, 100, "a");
-        products.addProduct(product);
+        registeredProduct = new RegisteredProduct("제품", "a", 15000, 100);
+        registeredProducts.addProduct(registeredProduct);
 
-        product = new Product("제품2", 25000, 200, "b");
-        products.addProduct(product);
+        registeredProduct = new RegisteredProduct("제품2", "b", 25000, 200);
+        registeredProducts.addProduct(registeredProduct);
 
-        product = new Product("제품3", 35000, 10, "c");
-        products.addProduct(product);
+        registeredProduct = new RegisteredProduct("제품3", "c", 35000, 10);
+        registeredProducts.addProduct(registeredProduct);
 
         OrderedProducts orderedProducts = OrderedProducts.getInstance();
         //System.out.println(orderedProducts.printOrderedProducts());

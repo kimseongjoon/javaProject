@@ -1,14 +1,15 @@
 package order;
 
-import product.Product;
-import product.Products;
+import base.Product;
+import registerproduct.RegisteredProduct;
+import registerproduct.RegisteredProducts;
 
 public class OrderedProduct extends Product implements AutoCloseable{
     private int salesQuantity;
     private int totalPrice;
 
     public OrderedProduct(int productID, String name, int price, int quantity, String brand, int salesQuantity) throws ProductQuantityException {
-        super(productID, name, price, quantity, brand);
+        super(productID, name, brand, price);
         try {
             setSalesQuantity(salesQuantity);
         } catch (ProductQuantityException e) {
@@ -25,11 +26,11 @@ public class OrderedProduct extends Product implements AutoCloseable{
     }
 
     public void setSalesQuantity(int salesQuantity) throws ProductQuantityException {
-        Products products = Products.getInstance();
-        Product product = products.getProduct(super.getId());
-        int productQuantity = product.getQuantity();
+        RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
+        RegisteredProduct registeredProduct = registeredProducts.getProduct(super.getId());
+        int productQuantity = registeredProduct.getQuantity();
         if ( (productQuantity > 0) && (salesQuantity - this.salesQuantity <= productQuantity) ) {
-            product.setQuantity(productQuantity - (salesQuantity - this.salesQuantity));
+            registeredProduct.setQuantity(productQuantity - (salesQuantity - this.salesQuantity));
         }
         else {
             throw new ProductQuantityException();

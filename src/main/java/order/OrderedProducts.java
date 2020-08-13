@@ -1,17 +1,17 @@
 package order;
 
-import product.Product;
-import product.Products;
+import registerproduct.RegisteredProduct;
+import registerproduct.RegisteredProducts;
 
 import java.util.HashSet;
 import java.util.Iterator;
 
 public class OrderedProducts {
-    HashSet<OrderedProduct> orderedProducts;
+    HashSet<OrderedProduct> orderedProductList;
 
     private static OrderedProducts instance = new OrderedProducts();
     private OrderedProducts() {
-        orderedProducts = new HashSet<>();
+        orderedProductList = new HashSet<>();
     }
 
     public static OrderedProducts getInstance() {
@@ -22,14 +22,14 @@ public class OrderedProducts {
     }
 
     public void addOrderedProduct(int productID, int purchaseQuantity) {
-        Products products = Products.getInstance();
-        Product product = products.getProduct(productID);
-        if (product == null) {
+        RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
+        RegisteredProduct registeredProduct = registeredProducts.getProduct(productID);
+        if (registeredProduct == null) {
             System.out.println("해당 상품은 상품리스트에서 존재하지 않습니다.");
             return;
         }
 
-        Iterator<OrderedProduct> ir = orderedProducts.iterator();
+        Iterator<OrderedProduct> ir = orderedProductList.iterator();
 
         while (ir.hasNext()) {
             OrderedProduct orderedProduct = ir.next();
@@ -43,8 +43,8 @@ public class OrderedProducts {
             }
         }
 
-        try (OrderedProduct orderedProduct = new OrderedProduct(productID, product.getName(), product.getPrice(), product.getQuantity(), product.getBrand(), purchaseQuantity)){
-            orderedProducts.add(orderedProduct);
+        try (OrderedProduct orderedProduct = new OrderedProduct(productID, registeredProduct.getName(), registeredProduct.getPrice(), registeredProduct.getQuantity(), registeredProduct.getBrand(), purchaseQuantity)){
+            orderedProductList.add(orderedProduct);
         } catch (ProductQuantityException e) {
             System.out.println("구매할 수 있는 최대수량을 초과하였습니다.");
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class OrderedProducts {
     }
 
     public int calTotalPrice() {
-        Iterator<OrderedProduct> ir = orderedProducts.iterator();
+        Iterator<OrderedProduct> ir = orderedProductList.iterator();
 
         int totalPrice = 0;
 
@@ -66,7 +66,7 @@ public class OrderedProducts {
     }
 
     public String printOrderedProducts() {
-        Iterator<OrderedProduct> ir = orderedProducts.iterator();
+        Iterator<OrderedProduct> ir = orderedProductList.iterator();
 
         StringBuilder orderedListStr = new StringBuilder();
 
@@ -84,11 +84,9 @@ public class OrderedProducts {
 
     @Override
     public String toString() {
-
-
         return "cOrderedProducts{" +
-            "주문목록=\n" + printOrderedProducts() +
-                    "총 구매액=" + calTotalPrice() +
+                "주문목록=\n" + printOrderedProducts() +
+                "총 구매액=" + calTotalPrice() +
                 '}';
     }
 }
