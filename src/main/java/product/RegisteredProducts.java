@@ -1,4 +1,7 @@
-package registerproduct;
+package product;
+
+import org.hibernate.Session;
+import util.HibernateUtil;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -20,8 +23,14 @@ public class RegisteredProducts {
     }
 
     public RegisteredProduct getProduct(int productID) {
-        if (productList.containsKey(productID)) {
-            return productList.get(productID);
+        Session session = HibernateUtil.getSession();
+
+        session.beginTransaction();
+
+        RegisteredProduct registeredProduct = (RegisteredProduct)session.get(RegisteredProduct.class, productID);
+
+        if (registeredProduct != null) {
+            return registeredProduct;
         } else {
             return null;
         }

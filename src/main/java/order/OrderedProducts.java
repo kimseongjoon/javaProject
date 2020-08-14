@@ -1,7 +1,7 @@
 package order;
 
-import registerproduct.RegisteredProduct;
-import registerproduct.RegisteredProducts;
+import product.RegisteredProduct;
+import product.RegisteredProducts;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,7 +23,7 @@ public class OrderedProducts {
 
     public void addOrderedProduct(int productID, int purchaseQuantity) {
         RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
-        RegisteredProduct registeredProduct = registeredProducts.getProduct(productID);
+        RegisteredProduct registeredProduct = registeredProducts.getProduct(1); // 수정 필요
         if (registeredProduct == null) {
             System.out.println("해당 상품은 상품리스트에서 존재하지 않습니다.");
             return;
@@ -43,7 +43,7 @@ public class OrderedProducts {
             }
         }
 
-        try (OrderedProduct orderedProduct = new OrderedProduct(productID, registeredProduct.getName(), registeredProduct.getPrice(), registeredProduct.getQuantity(), registeredProduct.getBrand(), purchaseQuantity)){
+        try (OrderedProduct orderedProduct = new OrderedProduct(productID, registeredProduct.getName(), registeredProduct.getBrand(), registeredProduct.getPrice(), purchaseQuantity)){
             orderedProductList.add(orderedProduct);
         } catch (ProductQuantityException e) {
             System.out.println("구매할 수 있는 최대수량을 초과하였습니다.");

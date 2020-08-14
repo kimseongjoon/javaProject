@@ -54,6 +54,6 @@ orderproductlist에 담고 cart의 내용을 확인하기 위해서 orderproduct
 checkoutforme시 해당 내용을 Orders클래스에 저장한다.
 
 
-새로운 클래스 A를 만들어 Product클래스와 OrderedProduct클래스가 A를 상속 받도록 수정 필요
-OrderedProduct클래스에서 super클래스의 변수에 접근할 수 있도록 super클래스의 변수들을 protected로 선언할 필요 있음
+
+Product 검색 시 스트림이용해서 자료형에 관계없이 처리하기
 ??OrderedProduct 클래스 생성시 Products클래스의 Id가 같은 Product의 수량을 확인하는 루틴을 OrderedProducts 클래스로 뺴는 부분 필요??

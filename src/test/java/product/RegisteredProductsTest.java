@@ -1,4 +1,4 @@
-package registerproduct;
+package product;
 
 import org.junit.jupiter.api.Test;
 

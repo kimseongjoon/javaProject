@@ -1,6 +1,8 @@
+package test;
+
 import order.OrderedProducts;
-import registerproduct.RegisteredProduct;
-import registerproduct.RegisteredProducts;
+import product.RegisteredProduct;
+import product.RegisteredProducts;
 
 import java.util.Scanner;
 

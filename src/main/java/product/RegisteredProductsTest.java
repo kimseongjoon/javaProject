@@ -1,4 +1,4 @@
-package registerproduct;
+package product;
 
 public class RegisteredProductsTest {
     public static void main(String[] args) {

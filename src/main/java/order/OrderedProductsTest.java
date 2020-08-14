@@ -1,7 +1,7 @@
 package order;
 
-import registerproduct.RegisteredProduct;
-import registerproduct.RegisteredProducts;
+import product.RegisteredProduct;
+import product.RegisteredProducts;
 
 public class OrderedProductsTest {
     public static void main(String[] args) {
