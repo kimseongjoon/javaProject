@@ -1,8 +1,14 @@
 package product;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import util.HibernateUtil;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -23,11 +29,21 @@ public class RegisteredProducts {
     }
 
     public RegisteredProduct getProduct(int productID) {
-        Session session = HibernateUtil.getSession();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        EntityManager entityManager = sessionFactory.createEntityManager();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RegisteredProduct> query = builder.createQuery(RegisteredProduct.class);
+        Root<RegisteredProduct> root = query.from(RegisteredProduct.class);
+        query.select(root).where(builder.and(builder.equal(root.get("id"), productID)));
 
-        session.beginTransaction();
+        RegisteredProduct registeredProduct = entityManager.createQuery(query).getSingleResult();
 
-        RegisteredProduct registeredProduct = (RegisteredProduct)session.get(RegisteredProduct.class, productID);
+
+
+
+
+//        Session session = HibernateUtil.getSession();
+//        RegisteredProduct registeredProduct = (RegisteredProduct)session.get(RegisteredProduct.class, productID);
 
         if (registeredProduct != null) {
             return registeredProduct;
@@ -96,7 +112,8 @@ public class RegisteredProducts {
         }
     }
 
-    public RegisteredProduct searchProduct(String tag, Object value) throws NoSuchFieldException { // 리터럴 값만 비교 가능
+    public RegisteredProduct searchProduct(String tag, Object value) throws NoResultException {
+ /*   public RegisteredProduct searchProduct(String tag, Object value) throws NoSuchFieldException { // 리터럴 값만 비교 가능
         Iterator<Integer> ir = productList.keySet().iterator();
 
         while (ir.hasNext()) {
@@ -115,6 +132,16 @@ public class RegisteredProducts {
             }
         }
 
-        return null;
+        return null;*/
+
+
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        EntityManager entityManager = sessionFactory.createEntityManager();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RegisteredProduct> query = builder.createQuery(RegisteredProduct.class);
+        Root<RegisteredProduct> root = query.from(RegisteredProduct.class);
+        query.select(root).where(builder.and(builder.equal(root.get(tag), value)));
+
+        return entityManager.createQuery(query).getSingleResult();
     }
 }
