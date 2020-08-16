@@ -10,10 +10,6 @@ public class Order {
     private HashSet<OrderedProducts> orderedProducts;
     private int totalPrice;
 
-    public void ordering() {
-
-    }
-
     public void setId(int id) {
         this.id = id;
     }
