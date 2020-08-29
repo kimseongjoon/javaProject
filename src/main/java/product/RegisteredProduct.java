@@ -3,12 +3,12 @@ package product;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "RegisteredProduct")
+@Table(name = "REGPRODUCT")
 public class RegisteredProduct {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue()
+    private long id;
     private String name;
     private String brand;
     private int price;
@@ -34,7 +34,7 @@ public class RegisteredProduct {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

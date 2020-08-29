@@ -1,8 +1,16 @@
 package order;
 
+import org.hibernate.SessionFactory;
 import product.RegisteredProduct;
 import product.RegisteredProducts;
+import util.HibernateUtil;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -21,35 +29,54 @@ public class OrderedProducts {
         return instance;
     }
 
-    public void addOrderedProduct(int productID, int purchaseQuantity) {
+    public void addOrderedProduct(long productID, int purchaseQuantity) {
+
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        EntityManager em = sessionFactory.createEntityManager();
+
+        RegisteredProduct findRegProduct = em.find(RegisteredProduct.class, productID);
+
+
         RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
-        RegisteredProduct registeredProduct = registeredProducts.getProduct(1); // 수정 필요
+        RegisteredProduct registeredProduct = registeredProducts.getProduct(productID); // 수정 필요
         if (registeredProduct == null) {
             System.out.println("해당 상품은 상품리스트에서 존재하지 않습니다.");
             return;
         }
 
-        Iterator<OrderedProduct> ir = orderedProductList.iterator();
 
-        while (ir.hasNext()) {
-            OrderedProduct orderedProduct = ir.next();
-            if (orderedProduct.getId() == productID) {
-                try {
-                    orderedProduct.setSalesQuantity(orderedProduct.getSalesQuantity() + purchaseQuantity);
-                    return;
-                } catch (ProductQuantityException e) {
-                    System.out.println("구매할 수 있는 최대수량을 초과하였습니다.");
-                }
-            }
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        OrderedProduct orderedProduct = null;
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<OrderedProduct> query = builder.createQuery(OrderedProduct.class);
+        Root<OrderedProduct> root = query.from(OrderedProduct.class);
+        query.select(root).where(builder.and(builder.equal(root.get("registeredProduct"), productID)));
+
+        try {
+            orderedProduct = em.createQuery(query).getSingleResult();
+        } catch (NoResultException e) {
+            orderedProduct = new OrderedProduct();
+
+            orderedProduct.setRegisteredProduct(registeredProduct);
+            orderedProduct.setTotalPrice(registeredProduct.getPrice() * purchaseQuantity);
         }
 
-        try (OrderedProduct orderedProduct = new OrderedProduct(productID, registeredProduct.getName(), registeredProduct.getBrand(), registeredProduct.getPrice(), purchaseQuantity)){
-            orderedProductList.add(orderedProduct);
+        try {
+            orderedProduct.setSalesQuantity(orderedProduct.getSalesQuantity() + purchaseQuantity);
         } catch (ProductQuantityException e) {
             System.out.println("구매할 수 있는 최대수량을 초과하였습니다.");
-        } catch (Exception e) {
-            e.printStackTrace();
+            em.close();
+
+            return;
         }
+
+        em.persist(orderedProduct);
+
+        tx.commit();
+        em.close();
     }
 
     public int calTotalPrice() {

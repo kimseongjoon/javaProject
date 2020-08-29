@@ -1,15 +1,14 @@
 package product;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import util.HibernateUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -28,7 +27,7 @@ public class RegisteredProducts {
         return instance;
     }
 
-    public RegisteredProduct getProduct(int productID) {
+    public RegisteredProduct getProduct(long productID) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         EntityManager entityManager = sessionFactory.createEntityManager();
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -40,6 +39,7 @@ public class RegisteredProducts {
 
 
 
+        entityManager.close();
 
 
 //        Session session = HibernateUtil.getSession();
@@ -57,6 +57,19 @@ public class RegisteredProducts {
     }
 
     public void printAllProducts() {
+
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        EntityManager entityManager = sessionFactory.createEntityManager();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RegisteredProduct> query = builder.createQuery(RegisteredProduct.class);
+        Root<RegisteredProduct> root = query.from(RegisteredProduct.class);
+        query.select(query.from(RegisteredProduct.class));
+        System.out.println("printAllProducts:"+query.toString());
+
+
+
+
+
         Iterator<Integer> ir = productList.keySet().iterator();
 
         System.out.println("========================================상품 목록========================================");
@@ -77,7 +90,19 @@ public class RegisteredProducts {
     }
 
     public String addProduct(RegisteredProduct registeredProduct) {
-        int addIndex = 0;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        EntityManager em = sessionFactory.createEntityManager();
+
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        em.persist(registeredProduct);
+        tx.commit();
+
+        em.close();
+
+        return "상품을 등록하였습니다.";
+        /*int addIndex = 0;
         Iterator<Integer> ir = productList.keySet().iterator();
 
         if ( (productList.size() != 0) && (productList.lastKey() != productList.size()) ) {
@@ -101,7 +126,7 @@ public class RegisteredProducts {
         registeredProduct.setId(addIndex);
         productList.put(addIndex, registeredProduct);
 
-        return "상품을 등록하였습니다.";
+        return "상품을 등록하였습니다.";*/
     }
 
     public String delProduct(int productId) {
