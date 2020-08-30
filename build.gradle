@@ -14,6 +14,20 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.2.Final'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+
+
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.3.1'
+    compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.3.1'
+    annotationProcessor(
+            "com.querydsl:querydsl-apt:4.3.1:jpa",
+            "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final"
+    )
+
+//    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.3.1'
+//    compile "com.querydsl:querydsl-core:${querydsl_version}"
+//    compile "com.querydsl:querydsl-apt:${querydsl_version}"
+//    annotationProcessor "com.querydsl:querydsl-apt:${querydsl_version}:jpa"
+
 }
 
 

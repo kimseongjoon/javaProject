@@ -1,5 +1,8 @@
 package product;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import order.OrderedProduct;
+import order.QOrderedProduct;
 import org.hibernate.SessionFactory;
 import util.HibernateUtil;
 
@@ -10,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 public class RegisteredProducts {
@@ -30,26 +34,11 @@ public class RegisteredProducts {
     public RegisteredProduct getProduct(long productID) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         EntityManager entityManager = sessionFactory.createEntityManager();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<RegisteredProduct> query = builder.createQuery(RegisteredProduct.class);
-        Root<RegisteredProduct> root = query.from(RegisteredProduct.class);
-        query.select(root).where(builder.and(builder.equal(root.get("id"), productID)));
 
-        RegisteredProduct registeredProduct = entityManager.createQuery(query).getSingleResult();
-
-
+        RegisteredProduct findRegProduct = entityManager.find(RegisteredProduct.class, productID);
 
         entityManager.close();
-
-
-//        Session session = HibernateUtil.getSession();
-//        RegisteredProduct registeredProduct = (RegisteredProduct)session.get(RegisteredProduct.class, productID);
-
-        if (registeredProduct != null) {
-            return registeredProduct;
-        } else {
-            return null;
-        }
+        return findRegProduct;
     }
 
     public TreeMap<Integer, RegisteredProduct> getProductList() {
@@ -60,23 +49,20 @@ public class RegisteredProducts {
 
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         EntityManager entityManager = sessionFactory.createEntityManager();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<RegisteredProduct> query = builder.createQuery(RegisteredProduct.class);
-        Root<RegisteredProduct> root = query.from(RegisteredProduct.class);
-        query.select(query.from(RegisteredProduct.class));
-        System.out.println("printAllProducts:"+query.toString());
 
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
+        QRegisteredProduct qregisteredProduct = QRegisteredProduct.registeredProduct;
+        List<RegisteredProduct> regProductList =
+                queryFactory.selectFrom(qregisteredProduct)
+                        .fetch();
 
-
-
-        Iterator<Integer> ir = productList.keySet().iterator();
+        Iterator<RegisteredProduct> ir = regProductList.iterator();
 
         System.out.println("========================================상품 목록========================================");
 
         while (ir.hasNext()) {
-            int key = ir.next();
-            RegisteredProduct registeredProduct = productList.get(key);
+            RegisteredProduct registeredProduct = ir.next();
             System.out.print(registeredProduct.getId() + "번 : " + registeredProduct);
             if (registeredProduct.getQuantity() <= 0) {
                 System.out.println(" (품절)");
@@ -87,6 +73,8 @@ public class RegisteredProducts {
         }
 
         System.out.println("========================================================================================");
+
+        entityManager.close();
     }
 
     public String addProduct(RegisteredProduct registeredProduct) {

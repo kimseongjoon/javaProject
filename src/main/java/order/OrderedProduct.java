@@ -1,7 +1,6 @@
 package order;
 
 import product.RegisteredProduct;
-import product.RegisteredProducts;
 
 import javax.persistence.*;
 
@@ -58,7 +57,6 @@ public class OrderedProduct  {
     }
 
     public void setSalesQuantity(int salesQuantity) throws ProductQuantityException {
-        RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
         RegisteredProduct registeredProduct = this.getRegisteredProduct();
 
         int productQuantity = registeredProduct.getQuantity();

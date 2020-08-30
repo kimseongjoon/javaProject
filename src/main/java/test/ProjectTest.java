@@ -13,7 +13,7 @@ public class ProjectTest {
         RegisteredProduct registeredProduct;
         OrderedProducts orderedProducts = OrderedProducts.getInstance();
 
-        registeredProduct = new RegisteredProduct("반팔 티셔츠", "A사", 20000, 100);
+        /*registeredProduct = new RegisteredProduct("반팔 티셔츠", "A사", 20000, 100);
         registeredProducts.addProduct(registeredProduct);
         registeredProduct = new RegisteredProduct("컴퓨터", "B사", 1000000, 30);
         registeredProducts.addProduct(registeredProduct);
@@ -26,7 +26,7 @@ public class ProjectTest {
         registeredProduct = new RegisteredProduct("화장품", "G사", 40000, 100);
         registeredProducts.addProduct(registeredProduct);
         registeredProduct = new RegisteredProduct("신발", "Z사", 250000, 5);
-        registeredProducts.addProduct(registeredProduct);
+        registeredProducts.addProduct(registeredProduct);*/
 
         System.out.println("쇼핑몰 프로그램입니다.");
         System.out.println("쇼핑을 종료하고자 하는 경우 Q를 입력하세요.");
@@ -35,7 +35,7 @@ public class ProjectTest {
 
         while (true) {
             System.out.println();
-            registeredProducts.printAllProducts();
+            //registeredProducts.printAllProducts();
 
             System.out.println("원하는 상품 번호를 입력하세요.");
             System.out.print("상품 번호 : ");
@@ -45,9 +45,7 @@ public class ProjectTest {
             try {
                 if (productID.equalsIgnoreCase("Q")) {
                     System.out.println("프로그램을 종료합니다.");
-                    return;
-                } else if (!registeredProducts.getProductList().containsKey(Integer.parseInt(productID))){
-                    System.out.println("입력한 번호에 해당하는 상품은 존재하지 않습니다.");
+                    System.exit(0);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("상품 번호가 잘 못 입력되었습니다. 다시 입력하세요");
@@ -61,7 +59,7 @@ public class ProjectTest {
 
             if (purchaseQuatity.equalsIgnoreCase("Q")) {
                 System.out.println("프로그램을 종료합니다.");
-                return;
+                System.exit(0);
             }
 
             try {
@@ -80,13 +78,13 @@ public class ProjectTest {
                 if (result.equalsIgnoreCase("Y")) {
                     break;
                 } else if (result.equalsIgnoreCase("N")) {
-                    System.out.println(orderedProducts.printOrderedProducts());
+                    orderedProducts.printOrderedProducts();
                     System.out.println("구매한 상품의 총 금액 : " + orderedProducts.calTotalPrice() + "원");
                     System.out.println("프로그램을 종료합니다.");
-                    return;
+                    System.exit(0);
                 } else if (result.equalsIgnoreCase("Q")) {
                     System.out.println("프로그램을 종료합니다.");
-                    return;
+                    System.exit(0);
                 } else {
                     System.out.println("해당하는 문자를 다시 입력하세요. ");
                     System.out.print("입력 : ");
