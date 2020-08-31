@@ -17,12 +17,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class RegisteredProducts {
-    private TreeMap<Integer, RegisteredProduct> productList;
     private static RegisteredProducts instance = new RegisteredProducts();
-
-    private RegisteredProducts() {
-        productList = new TreeMap<Integer, RegisteredProduct>();
-    }
 
     public static RegisteredProducts getInstance() {
         if (instance == null) {
@@ -41,8 +36,15 @@ public class RegisteredProducts {
         return findRegProduct;
     }
 
-    public TreeMap<Integer, RegisteredProduct> getProductList() {
-        return productList;
+    public List<RegisteredProduct> getProductList() {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        EntityManager entityManager = sessionFactory.createEntityManager();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RegisteredProduct> query = builder.createQuery(RegisteredProduct.class);
+        Root<RegisteredProduct> root = query.from(RegisteredProduct.class);
+        query.select(root);
+
+        return entityManager.createQuery(query).getResultList();
     }
 
     public void printAllProducts() {
@@ -69,7 +71,6 @@ public class RegisteredProducts {
             } else {
                 System.out.println();
             }
-
         }
 
         System.out.println("========================================================================================");
@@ -117,37 +118,18 @@ public class RegisteredProducts {
         return "상품을 등록하였습니다.";*/
     }
 
-    public String delProduct(int productId) {
-        if (productList.remove(productId) != null) {
-            return "해당 상품을 삭제하였습니다.";
-        } else {
-            return "해당 상품을 찾을 수 없습니다.";
-        }
+        session.save(registeredProduct);
+    }
+
+    public void delProduct(int productID) {
+        Session session = HibernateUtil.getSession();
+
+        RegisteredProduct registeredProduct = (RegisteredProduct)session.get(RegisteredProduct.class, productID);
+
+        session.delete(registeredProduct);
     }
 
     public RegisteredProduct searchProduct(String tag, Object value) throws NoResultException {
- /*   public RegisteredProduct searchProduct(String tag, Object value) throws NoSuchFieldException { // 리터럴 값만 비교 가능
-        Iterator<Integer> ir = productList.keySet().iterator();
-
-        while (ir.hasNext()) {
-            int key = ir.next();
-            RegisteredProduct registeredProduct = productList.get(key);
-
-            Field field = registeredProduct.getClass().getDeclaredField(tag);
-            field.setAccessible(true);
-            try {
-                Object result = field.get(registeredProduct);
-                if ((result).equals(value)) {
-                    return registeredProduct;
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;*/
-
-
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         EntityManager entityManager = sessionFactory.createEntityManager();
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();

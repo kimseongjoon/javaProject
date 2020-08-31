@@ -6,7 +6,7 @@ public class RegisteredProductsTest {
         RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
         registeredProduct = new RegisteredProduct("제품", "a사", 15000, 100);
 
-        System.out.println(registeredProducts.addProduct(registeredProduct));
+        //System.out.println(registeredProducts.addProduct(registeredProduct));
         registeredProduct = new RegisteredProduct("제품", "a사", 15000, 100);
 
         registeredProducts.addProduct(registeredProduct);

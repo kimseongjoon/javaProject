@@ -30,6 +30,6 @@ public class HibernateUtil {
             session = sessionFactory.openSession();
         }
 
-        return sessionFactory.openSession();
+        return session;
     }
 }

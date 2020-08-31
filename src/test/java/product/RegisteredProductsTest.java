@@ -12,7 +12,7 @@ class RegisteredProductsTest {
     RegisteredProducts registeredProducts = RegisteredProducts.getInstance();
     @Test
     void addProduct() {
-        RegisteredProduct registeredProduct = new RegisteredProduct("제품", "a사", 15000, 100);
+        /*RegisteredProduct registeredProduct = new RegisteredProduct("제품", "a사", 15000, 100);
 
         System.out.println( registeredProducts.addProduct(registeredProduct));
         registeredProduct = new RegisteredProduct("제품2", "b사", 25000, 200);
@@ -21,7 +21,7 @@ class RegisteredProductsTest {
         registeredProduct = new RegisteredProduct("제품3", "c사", 35000, 300);
 
         registeredProducts.addProduct(registeredProduct);
-        assertEquals("상품을 등록하였습니다.", registeredProducts.addProduct(registeredProduct));
+        assertEquals("상품을 등록하였습니다.", registeredProducts.addProduct(registeredProduct));*/
     }
 
     @Test
@@ -30,19 +30,19 @@ class RegisteredProductsTest {
 
     @Test
     void getProductList() {
-        TreeMap<Integer, RegisteredProduct> a = registeredProducts.getProductList();
-
-        Iterator<Integer> ir = a.keySet().iterator();
-
-        System.out.println("===========================상품 목록=============================");
-
-        while (ir.hasNext()) {
-            int key = ir.next();
-            RegisteredProduct registeredProduct = a.get(key);
-            System.out.println(registeredProduct);
-        }
-
-        System.out.println("==================================================================");
+//        TreeMap<Integer, RegisteredProduct> a = registeredProducts.getProductList();
+//
+//        Iterator<Integer> ir = a.keySet().iterator();
+//
+//        System.out.println("===========================상품 목록=============================");
+//
+//        while (ir.hasNext()) {
+//            int key = ir.next();
+//            RegisteredProduct registeredProduct = a.get(key);
+//            System.out.println(registeredProduct);
+//        }
+//
+//        System.out.println("==================================================================");
 
     }
 
@@ -53,41 +53,36 @@ class RegisteredProductsTest {
 
     @Test
     void delProduct() {
-        System.out.println(registeredProducts.delProduct(4));
+        //System.out.println(registeredProducts.delProduct(4));
     }
 
     @Test
     void searchProduct() {
-        try {
-            RegisteredProduct a = registeredProducts.searchProduct("name", "제품3");
+        RegisteredProduct a = registeredProducts.searchProduct("name", "제품3");
 
-            if (a != null) {
-                System.out.println(a.toString());
-            } else {
-                System.out.println("상품을 찾을 수 없습니다.");
-            }
-
-
-
-            a = registeredProducts.searchProduct("price", 40000);
-
-            if (a != null) {
-                System.out.println(a.toString());
-            } else {
-                System.out.println("상품을 찾을 수 없습니다.");
-            }
-
-
-            a = registeredProducts.searchProduct("price", 35000);
-
-            if (a != null) {
-                System.out.println(a.toString());
-            } else {
-                System.out.println("상품을 찾을 수 없습니다.");
-            }
-
-        } catch (NoSuchFieldException e) {
-            System.out.println("상품 속성이 잘 못 입력되었습니다.");
+        if (a != null) {
+            System.out.println(a.toString());
+        } else {
+            System.out.println("상품을 찾을 수 없습니다.");
         }
+
+
+        a = registeredProducts.searchProduct("price", 40000);
+
+        if (a != null) {
+            System.out.println(a.toString());
+        } else {
+            System.out.println("상품을 찾을 수 없습니다.");
+        }
+
+
+        a = registeredProducts.searchProduct("price", 35000);
+
+        if (a != null) {
+            System.out.println(a.toString());
+        } else {
+            System.out.println("상품을 찾을 수 없습니다.");
+        }
+
     }
 }

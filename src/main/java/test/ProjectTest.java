@@ -43,10 +43,12 @@ public class ProjectTest {
             String productID = scanner.nextLine();
 
             try {
-                if (productID.equalsIgnoreCase("Q")) {
-                    System.out.println("프로그램을 종료합니다.");
-                    System.exit(0);
-                }
+//                if (productID.equalsIgnoreCase("Q")) {
+//                    System.out.println("프로그램을 종료합니다.");
+//                    return;
+//                } else if (!registeredProducts.getProductList().containsKey(Integer.parseInt(productID))){
+//                    System.out.println("입력한 번호에 해당하는 상품은 존재하지 않습니다.");
+//                }
             } catch (NumberFormatException e) {
                 System.out.println("상품 번호가 잘 못 입력되었습니다. 다시 입력하세요");
                 continue;
